@@ -8,3 +8,7 @@ The repository for [Building Modern Web Applications with Go](https://www.udemy.
 - Uses the [chi router](github.com/go-chi/chi)
 - Uses [alex edwards scs session management](github.com/alexedwards/scs)
 - Uses [nosurf](github.com/justinas/nosurf)
+- Uses PostgreSQL 13.1
+- Uses Soda CLI
+
+![screenshot](./DB.png)
