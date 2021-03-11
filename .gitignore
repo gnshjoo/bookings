@@ -2,3 +2,5 @@
 coverage.out
 .DS_Store
 database.yml
+
+migrations/
