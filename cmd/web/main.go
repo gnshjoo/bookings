@@ -4,12 +4,12 @@ import (
 	"encoding/gob"
 	"fmt"
 	"github.com/alexedwards/scs/v2"
-	"github.com/gnshjoo/bookings/internal/config"
-	"github.com/gnshjoo/bookings/internal/driver"
-	"github.com/gnshjoo/bookings/internal/handlers"
-	"github.com/gnshjoo/bookings/internal/helpers"
-	"github.com/gnshjoo/bookings/internal/models"
-	"github.com/gnshjoo/bookings/internal/render"
+	"github.com/tsawler/bookings/internal/config"
+	"github.com/tsawler/bookings/internal/driver"
+	"github.com/tsawler/bookings/internal/handlers"
+	"github.com/tsawler/bookings/internal/helpers"
+	"github.com/tsawler/bookings/internal/models"
+	"github.com/tsawler/bookings/internal/render"
 	"log"
 	"net/http"
 	"os"
@@ -23,16 +23,15 @@ var session *scs.SessionManager
 var infoLog *log.Logger
 var errorLog *log.Logger
 
-// main is the main function
+// main is the main application function
 func main() {
-
 	db, err := run()
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer db.SQL.Close()
 
-	fmt.Println(fmt.Sprintf("Staring application on port %s", portNumber))
+	fmt.Println(fmt.Sprintf("Starting application on port %s", portNumber))
 
 	srv := &http.Server{
 		Addr:    portNumber,
@@ -40,11 +39,8 @@ func main() {
 	}
 
 	err = srv.ListenAndServe()
-	if err != nil {
-		log.Fatal(err)
-	}
+	log.Fatal(err)
 }
-
 
 func run() (*driver.DB, error) {
 	// what am I going to put in the session
@@ -59,12 +55,11 @@ func run() (*driver.DB, error) {
 	infoLog = log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	app.InfoLog = infoLog
 
-	errorLog = log.New(os.Stdout, "Error\t", log.Ldate|log.Ltime|log.Lshortfile)
+	errorLog = log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 	app.ErrorLog = errorLog
 
-	// set up the session
 	session = scs.New()
-	session.Lifetime = 24* time.Hour
+	session.Lifetime = 24 * time.Hour
 	session.Cookie.Persist = true
 	session.Cookie.SameSite = http.SameSiteLaxMode
 	session.Cookie.Secure = app.InProduction
@@ -75,10 +70,9 @@ func run() (*driver.DB, error) {
 	log.Println("Connecting to database...")
 	db, err := driver.ConnectSQL("host=localhost port=5432 dbname=bookings user=gnshjoo password=")
 	if err != nil {
-		log.Fatal("Can't not connect to database! Dying...")
+		log.Fatal("Cannot connect to database! Dying...")
 	}
 	log.Println("Connected to database!")
-
 
 	tc, err := render.CreateTemplateCache()
 	if err != nil {

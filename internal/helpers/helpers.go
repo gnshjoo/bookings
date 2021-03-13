@@ -2,7 +2,7 @@ package helpers
 
 import (
 	"fmt"
-	"github.com/gnshjoo/bookings/internal/config"
+	"github.com/tsawler/bookings/internal/config"
 	"net/http"
 	"runtime/debug"
 )
@@ -14,13 +14,11 @@ func NewHelpers(a *config.AppConfig) {
 	app = a
 }
 
-// ClientError
 func ClientError(w http.ResponseWriter, status int) {
 	app.InfoLog.Println("Client error with status of", status)
 	http.Error(w, http.StatusText(status), status)
 }
 
-// ServerError
 func ServerError(w http.ResponseWriter, err error) {
 	trace := fmt.Sprintf("%s\n%s", err.Error(), debug.Stack())
 	app.ErrorLog.Println(trace)

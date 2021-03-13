@@ -17,22 +17,22 @@ type DB struct {
 var dbConn = &DB{}
 
 const maxOpenDbConn = 10
-const maxIdleDBConn = 5
-const maxDBLifetime = 5 * time.Minute
+const maxIdleDbConn = 5
+const maxDbLifetime = 5 * time.Minute
 
-//ConnectSQL create PostgreSQL Connections
+// ConnectSQL creates database pool for Postgres
 func ConnectSQL(dsn string) (*DB, error) {
 	d, err := NewDatabase(dsn)
 	if err != nil {
-		// Program not working
 		panic(err)
 	}
 
 	d.SetMaxOpenConns(maxOpenDbConn)
-	d.SetMaxIdleConns(maxIdleDBConn)
-	d.SetConnMaxLifetime(maxDBLifetime)
+	d.SetMaxIdleConns(maxIdleDbConn)
+	d.SetConnMaxLifetime(maxDbLifetime)
 
 	dbConn.SQL = d
+
 	err = testDB(d)
 	if err != nil {
 		return nil, err
@@ -56,7 +56,6 @@ func NewDatabase(dsn string) (*sql.DB, error) {
 		return nil, err
 	}
 
-	// test DB connection
 	if err = db.Ping(); err != nil {
 		return nil, err
 	}

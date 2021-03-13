@@ -2,21 +2,20 @@ package main
 
 import (
 	"fmt"
-	"github.com/gnshjoo/bookings/internal/config"
 	"github.com/go-chi/chi"
+	"github.com/tsawler/bookings/internal/config"
 	"testing"
 )
 
 func TestRoutes(t *testing.T) {
-	app = config.AppConfig{}
+	var app config.AppConfig
 
 	mux := routes(&app)
 
 	switch v := mux.(type) {
 	case *chi.Mux:
-		// do nothing
+		// do nothing; test passed
 	default:
-		t.Error(fmt.Sprintf("type is not *chi.Mux, but it is %T", v))
-
+		t.Error(fmt.Sprintf("type is not *chi.Mux, type is %T", v))
 	}
 }

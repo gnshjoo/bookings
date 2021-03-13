@@ -1,13 +1,14 @@
 package render
 
 import (
-	"github.com/gnshjoo/bookings/internal/models"
+	"github.com/tsawler/bookings/internal/models"
 	"net/http"
 	"testing"
 )
 
 func TestAddDefaultData(t *testing.T) {
 	var td models.TemplateData
+
 	r, err := getSession()
 	if err != nil {
 		t.Error(err)
@@ -20,7 +21,6 @@ func TestAddDefaultData(t *testing.T) {
 	if result.Flash != "123" {
 		t.Error("flash value of 123 not found in session")
 	}
-
 }
 
 func TestRenderTemplate(t *testing.T) {
@@ -29,6 +29,7 @@ func TestRenderTemplate(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
+
 	app.TemplateCache = tc
 
 	r, err := getSession()
@@ -38,20 +39,19 @@ func TestRenderTemplate(t *testing.T) {
 
 	var ww myWriter
 
-	err = RenderTemplate(&ww, r, "home.page.tmpl", &models.TemplateData{})
+	err = Template(&ww, r, "home.page.tmpl", &models.TemplateData{})
 	if err != nil {
 		t.Error("error writing template to browser")
 	}
 
-	//err = RenderTemplate(&ww, r, "non-existent.page.tmpl", &models.TemplateData{})
-	//if err != nil {
-	//	t.Error("rendered template that dose not exist")
-	//}
+	err = Template(&ww, r, "non-existent.page.tmpl", &models.TemplateData{})
+	if err == nil {
+		t.Error("rendered template that does not exist")
+	}
 }
 
-
 func getSession() (*http.Request, error) {
-	r, err := http.NewRequest("GET", "some-url", nil)
+	r, err := http.NewRequest("GET", "/some-url", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +64,7 @@ func getSession() (*http.Request, error) {
 }
 
 func TestNewTemplates(t *testing.T) {
-	NewTemplates(app)
+	NewRenderer(app)
 }
 
 func TestCreateTemplateCache(t *testing.T) {
@@ -73,5 +73,4 @@ func TestCreateTemplateCache(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-
 }

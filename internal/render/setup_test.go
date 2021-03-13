@@ -3,8 +3,8 @@ package render
 import (
 	"encoding/gob"
 	"github.com/alexedwards/scs/v2"
-	"github.com/gnshjoo/bookings/internal/config"
-	"github.com/gnshjoo/bookings/internal/models"
+	"github.com/tsawler/bookings/internal/config"
+	"github.com/tsawler/bookings/internal/models"
 	"log"
 	"net/http"
 	"os"
@@ -26,12 +26,11 @@ func TestMain(m *testing.M) {
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	testApp.InfoLog = infoLog
 
-	errorLog := log.New(os.Stdout, "Error\t", log.Ldate|log.Ltime|log.Lshortfile)
+	errorLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 	testApp.ErrorLog = errorLog
 
-	// set up the session
 	session = scs.New()
-	session.Lifetime = 24* time.Hour
+	session.Lifetime = 24 * time.Hour
 	session.Cookie.Persist = true
 	session.Cookie.SameSite = http.SameSiteLaxMode
 	session.Cookie.Secure = false
@@ -43,11 +42,10 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-type myWriter struct {}
+type myWriter struct{}
 
 func (tw *myWriter) Header() http.Header {
 	var h http.Header
-
 	return h
 }
 
