@@ -4,11 +4,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/tsawler/bookings/internal/driver"
-	"github.com/tsawler/bookings/internal/models"
+	"github.com/gnshjoo/bookings/internal/driver"
+	"github.com/gnshjoo/bookings/internal/models"
 	"log"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"reflect"
 	"strings"
 	"testing"
@@ -120,7 +121,17 @@ func TestRepository_PostReservation(t *testing.T) {
 	reqBody = fmt.Sprintf("%s&%s", reqBody, "phone=123456789")
 	reqBody = fmt.Sprintf("%s&%s", reqBody, "room_id=1")
 
-	req, _ := http.NewRequest("POST", "/make-reservation", strings.NewReader(reqBody))
+	postedData := url.Values{}
+	postedData.Add("start_date", "2015-01-01")
+	postedData.Add("end_date", "2015-01-02")
+	postedData.Add("first_name", "John")
+	postedData.Add("last_name", "Smith")
+	postedData.Add("email", "Smith@mith.com")
+	postedData.Add("phone", "555-555-5555")
+	postedData.Add("room_id", "1")
+
+
+	req, _ := http.NewRequest("POST", "/make-reservation", strings.NewReader(postedData.Encode()))
 	ctx := getCtx(req)
 	req = req.WithContext(ctx)
 

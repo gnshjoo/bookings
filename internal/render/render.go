@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"github.com/justinas/nosurf"
-	"github.com/tsawler/bookings/internal/config"
-	"github.com/tsawler/bookings/internal/models"
+	"github.com/gnshjoo/bookings/internal/config"
+	"github.com/gnshjoo/bookings/internal/models"
 	"html/template"
 	"log"
 	"net/http"
@@ -29,6 +29,10 @@ func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateDa
 	td.Error = app.Session.PopString(r.Context(), "error")
 	td.Warning = app.Session.PopString(r.Context(), "warning")
 	td.CSRFToken = nosurf.Token(r)
+	if app.Session.Exists(r.Context(), "user_id") {
+		td.IsAuthenticated = 1
+	}
+
 	return td
 }
 

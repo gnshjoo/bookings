@@ -4,12 +4,12 @@ import (
 	"encoding/gob"
 	"fmt"
 	"github.com/alexedwards/scs/v2"
-	"github.com/tsawler/bookings/internal/config"
-	"github.com/tsawler/bookings/internal/driver"
-	"github.com/tsawler/bookings/internal/handlers"
-	"github.com/tsawler/bookings/internal/helpers"
-	"github.com/tsawler/bookings/internal/models"
-	"github.com/tsawler/bookings/internal/render"
+	"github.com/gnshjoo/bookings/internal/config"
+	"github.com/gnshjoo/bookings/internal/driver"
+	"github.com/gnshjoo/bookings/internal/handlers"
+	"github.com/gnshjoo/bookings/internal/helpers"
+	"github.com/gnshjoo/bookings/internal/models"
+	"github.com/gnshjoo/bookings/internal/render"
 	"log"
 	"net/http"
 	"os"
@@ -30,6 +30,7 @@ func main() {
 		log.Fatal(err)
 	}
 	defer db.SQL.Close()
+
 
 	fmt.Println(fmt.Sprintf("Starting application on port %s", portNumber))
 

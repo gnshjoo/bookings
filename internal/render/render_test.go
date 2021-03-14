@@ -1,7 +1,7 @@
 package render
 
 import (
-	"github.com/tsawler/bookings/internal/models"
+	"github.com/gnshjoo/bookings/internal/models"
 	"net/http"
 	"testing"
 )
